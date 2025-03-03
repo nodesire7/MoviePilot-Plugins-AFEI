@@ -1,39 +1,34 @@
 {
-  "name": "hhsign",
-  "title": "憨憨PT站签到",
-  "version": "1.0",
-  "author": "AFEI",
-  "description": "憨憨PT站自动签到插件",
-  "requirements": [
-    "selenium",
-    "webdriver_manager"
-  ],
-  "dependencies": {
+  "name": "MoviePilot-Plugins-AFEI",
+  "version": "1.0.0",
+  "description": "MoviePilot plugins by AFEI",
+  "scripts": {
+    "build": "python3 ./build.py",
+    "publish": "python3 ./publish.py"
   },
-  "configField": [
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nodesire7/MoviePilot-Plugins-AFEI.git"
+  },
+  "keywords": [
+    "MoviePilot",
+    "plugins"
+  ],
+  "author": "AFEI",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nodesire7/MoviePilot-Plugins-AFEI/issues"
+  },
+  "homepage": "https://github.com/nodesire7/MoviePilot-Plugins-AFEI",
+  "plugins": [
     {
-      "field": "enabled",
-      "label": "开启插件",
-      "type": "boolean",
-      "default": false
-    },
-    {
-      "field": "cookie",
-      "label": "Cookie",
-      "type": "string",
-      "default": ""
-    },
-    {
-      "field": "cron",
-      "label": "执行周期",
-      "type": "string",
-      "default": "30 8 * * *"
-    },
-    {
-      "field": "notify",
-      "label": "发送通知",
-      "type": "boolean",
-      "default": true
+      "name": "hh_signin",
+      "title": "憨憨PT站签到",
+      "version": "1.0.0",
+      "description": "憨憨PT站自动签到插件",
+      "author": "AFEI",
+      "requirements": ["selenium"],
+      "repository": "https://github.com/nodesire7/MoviePilot-Plugins-AFEI"
     }
   ]
 }
