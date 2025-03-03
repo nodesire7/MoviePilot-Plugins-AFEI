@@ -1,17 +1,17 @@
 from typing import Dict, Any
-from app.core.module import BaseModule
+from app.plugins import _PluginBase
 from app.log import logger
 from .sign import HHSignHelper
 
-class HHSignin(BaseModule):
+class HHSign(_PluginBase):
     """
     HH论坛自动签到插件
     """
 
     # 插件名称
-    module_name = "憨憨PT站签到"
+    module_name = "hhsign"
     # 插件描述
-    module_desc = "憨憨PT站签到"
+    module_desc = "HH论坛自动签到插件"
     # 插件图标
     module_icon = "signin.png"
     # 主题色
