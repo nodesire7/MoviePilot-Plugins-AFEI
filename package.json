@@ -1,0 +1,12 @@
+{
+  "HHSign": {
+    "name": "HHSign",
+    "description": "HH论坛自动签到插件（Cookie版）",
+    "labels": "签到",
+    "version": "1.0.0",
+    "icon": "https://raw.githubusercontent.com/nodesire7/MoviePilot-Plugins-AFEI/refs/heads/main/icons/signin.png",
+    "author": "AFEI",
+    "level": 2,
+    "v2": true
+  }
+}
