@@ -1,29 +1,18 @@
 import os
-from webdriver_manager.chrome import ChromeDriverManager
-from shutil import copyfile
+import platform
+from .utils import update_chromedriver
 
-class Config:
-    def __init__(self):
-        self.target_url = "https://hhanclub.top/"
-        self.cookie_file_path = os.path.join(os.path.dirname(__file__), "hhck.json")
-        self.chrome_driver_path = self.update_chromedriver()
+TARGET_URL = "https://hhanclub.top/"
 
-    def update_chromedriver(self):
-        """
-        使用 ChromeDriverManager 自动下载并更新 chromedriver 到当前运行目录。
-        """
-        target_dir = os.path.dirname(__file__)
-        try:
-            # 使用 ChromeDriverManager 自动下载 chromedriver
-            print("正在通过 ChromeDriverManager 下载最新的 chromedriver...")
-            driver_path = ChromeDriverManager().install()
+# 确定 ChromeDriver 的文件名（Linux 下不需要 .exe 后缀）
+if platform.system() == "Windows":
+    driver_filename = "chromedriver.exe"
+else:
+    driver_filename = "chromedriver"
 
-            # 将下载的 chromedriver 复制到目标目录
-            target_driver_path = os.path.join(target_dir, "chromedriver")
-            copyfile(driver_path, target_driver_path)
-            print(f"chromedriver 已成功更新到目录: {target_dir}")
-            return target_driver_path
+# 自动更新 ChromeDriver 并获取路径
+CHROMEDRIVER_DIR = os.path.join(os.path.dirname(__file__), "drivers")
+CHROMEDRIVER_PATH = update_chromedriver(CHROMEDRIVER_DIR)
 
-        except Exception as e:
-            print(f"更新 chromedriver 失败: {e}")
-            raise
+if not CHROMEDRIVER_PATH:
+    raise FileNotFoundError("ChromeDriver 更新失败，请检查配置。")
