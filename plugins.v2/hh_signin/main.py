@@ -8,12 +8,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-# from .config import CHROMEDRIVER_PATH  # 移除 CHROMEDRIVER_PATH 引用
-# 假设 MoviePilot 插件提供了获取 Cookie 的 API
-# from moviepilot import get_cookies  # 需要根据实际情况修改
-# 导入服务帮助类 (需要根据实际情况修改)
-# from app.helper.service import ServiceBaseHelper
-
+from .cookie_helper import CookieHelper  # 导入 CookieHelper
 
 # Step 1: 读取 config.json 文件
 def load_config():
@@ -36,10 +31,6 @@ def setup_driver():
     chrome_options.add_experimental_option("useAutomationExtension", False)
 
     # 初始化 WebDriver
-    # if not os.path.exists(CHROMEDRIVER_PATH):  # 移除 CHROMEDRIVER_PATH 检查
-    #     raise FileNotFoundError(f"未找到 ChromeDriver：{CHROMEDRIVER_PATH}")
-    # service = Service(CHROMEDRIVER_PATH)  # 移除 CHROMEDRIVER_PATH 初始化
-    # driver = webdriver.Chrome(service=service, options=chrome_options)
     driver = webdriver.Chrome(options=chrome_options)  # 假设 MoviePilot 已经管理了 ChromeDriver
     return driver
 
@@ -52,6 +43,9 @@ def run(user_provided_cookies=None):
 
     # 初始化 WebDriver
     driver = setup_driver()
+
+    # 初始化 CookieHelper
+    cookie_helper = CookieHelper()
 
     try:
         # Step 4: 访问目标网站
@@ -66,15 +60,17 @@ def run(user_provided_cookies=None):
         else:
             # 尝试从 MoviePilot 站点获取 Cookie
             try:
-                # cookies = get_cookies(TARGET_URL)  # 需要根据实际情况修改
-                print("尝试从 MoviePilot 站点获取 Cookie。（请实现 get_cookies 函数）")
-                # TODO: 实现从 MoviePilot 站点获取 Cookie 的逻辑
-                # 示例：使用 ServiceBaseHelper 获取 Cookie
-                # service_helper = ServiceBaseHelper(...)  # 需要根据实际情况修改
-                # service_info = service_helper.get_service(name="your_cookie_service")
-                # if service_info:
-                #     cookies = service_info.instance.get_cookies(TARGET_URL)
-                pass
+                # 使用 CookieHelper 获取 Cookie
+                cookie_string = cookie_helper.get_cookie(TARGET_URL)
+                if cookie_string:
+                    cookies = parse_cookie_string(cookie_string)
+                    print("从 MoviePilot 站点获取 Cookie 成功。")
+                else:
+                    print("从 MoviePilot 站点获取 Cookie 失败。")
+                    # 提示用户手动输入 Cookie
+                    user_provided_cookies = input("请手动输入 Cookie 字符串：")
+                    cookies = parse_cookie_string(user_provided_cookies)
+                    print("使用用户手动输入的 Cookie。")
             except Exception as e:
                 print(f"从 MoviePilot 站点获取 Cookie 失败：{e}")
                 # 提示用户手动输入 Cookie
