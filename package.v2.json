@@ -1,0 +1,11 @@
+{
+  "HHSign": {
+    "name": "HHSign",
+    "description": "憨憨论坛自动签到插件（Cookie版）",
+    "labels": "签到",
+    "version": "1.0.0",
+    "icon": "签到.png",
+    "author": "AFEI",
+    "level": 2
+  }
+}
