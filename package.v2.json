@@ -1,9 +1,34 @@
 {
-  "name": "hh_signin",
-  "title": "憨憨PT站签到",
+  "name": "MoviePilot-Plugins-AFEI",
+  "version": "1.0.0",
+  "description": "MoviePilot plugins by AFEI",
+  "scripts": {
+    "build": "python3 ./build.py",
+    "publish": "python3 ./publish.py"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nodesire7/MoviePilot-Plugins-AFEI.git"
+  },
+  "keywords": [
+    "MoviePilot",
+    "plugins"
+  ],
   "author": "AFEI",
-  "description": "憨憨PT站自动签到插件",
-  "version": "1.0",
-  "requirements": ["selenium"],
-  "repository": "https://github.com/nodesire7/MoviePilot-Plugins-AFEI"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nodesire7/MoviePilot-Plugins-AFEI/issues"
+  },
+  "homepage": "https://github.com/nodesire7/MoviePilot-Plugins-AFEI",
+  "plugins": [
+    {
+      "name": "hh_signin",
+      "title": "憨憨PT站签到",
+      "version": "1.0.0",
+      "description": "憨憨PT站自动签到插件",
+      "author": "AFEI",
+      "requirements": ["selenium"],
+      "repository": "https://github.com/nodesire7/MoviePilot-Plugins-AFEI"
+    }
+  ]
 }
