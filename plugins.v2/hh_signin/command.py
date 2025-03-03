@@ -14,6 +14,6 @@ def command_exec(cmd: List[str], data: Dict[str, Any]) -> Tuple[bool, str]:
     # 手动签到命令
     if cmd[0] == "hhsignin":
         # TODO: 执行签到逻辑
-        return True, "开始执行HH论坛签到..."
+        return True, "开始执行憨憨PT站签到..."
         
     return False, "未知命令"
