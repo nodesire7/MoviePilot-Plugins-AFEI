@@ -1,0 +1,9 @@
+{
+  "name": "hhsign",
+  "title": "憨憨PT站签到",
+  "author": "AFEI",
+  "description": "憨憨PT站自动签到插件",
+  "version": "1.0",
+  "requirements": [],
+  "repository": "https://github.com/nodesire7/MoviePilot-Plugins-AFEI"
+}
