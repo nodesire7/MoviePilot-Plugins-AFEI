@@ -8,9 +8,9 @@ class HHSignin(BaseModule):
     """
 
     # 插件名称
-    module_name = "HH论坛签到"
+    module_name = "憨憨PT站签到"
     # 插件描述
-    module_desc = "HH论坛自动签到"
+    module_desc = "憨憨PT站自动签到"
     # 插件图标
     module_icon = "signin.png"
     # 主题色
