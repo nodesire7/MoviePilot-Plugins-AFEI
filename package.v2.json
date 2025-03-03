@@ -1,11 +1,11 @@
 {
-    "hh_signin": {
-        "name": "hh_signin",
-        "description": "憨憨PT站自动签到插件（Cookie版）",
-        "labels": "签到",
-        "version": "1.0",
-        "icon": "signin.png",
-        "author": "AFEI",
-        "level": 2
-        }
-    }
+  "hh_signin": {
+    "name": "憨憨PT站签到",
+    "description": "自动执行憨憨PT站签到任务",
+    "version": "1.0",
+    "icon": "signin.png",
+    "author": "nodesire7",
+    "level": 2,
+    "module": "plugins.v2.hh_signin"
+  }
+}
