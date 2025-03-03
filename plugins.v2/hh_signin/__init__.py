@@ -4,7 +4,7 @@ from app.core.config import settings
 from app.log import logger
 from .sign import HHSignHelper
 
-class hh_signin(_PluginBase):
+class HHSignin(_PluginBase):
     """
     憨憨PT站自动签到插件
     """
@@ -77,3 +77,18 @@ class hh_signin(_PluginBase):
             )
             
         return result
+
+from .main import hh_signin
+
+plugin_id = "hh_signin"
+plugin_name = "憨憨PT站签到"
+plugin_desc = "自动执行憨憨PT站签到任务"
+plugin_icon = "signin.png"
+plugin_version = "1.0"
+plugin_author = "nodesire7"
+
+def init_plugin(config=None):
+    """
+    加载插件
+    """
+    return hh_signin(config)
