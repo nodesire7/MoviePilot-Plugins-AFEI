@@ -1,12 +1,39 @@
 {
-  "HHSign": {
-    "name": "HHSign",
-    "description": "HH论坛自动签到插件（Cookie版）",
-    "labels": "签到",
-    "version": "1.0.0",
-    "icon": "https://raw.githubusercontent.com/nodesire7/MoviePilot-Plugins-AFEI/refs/heads/main/icons/signin.png",
-    "author": "AFEI",
-    "level": 2,
-    "v2": true
-  }
+  "name": "hhsign",
+  "title": "憨憨PT站签到",
+  "version": "1.0",
+  "author": "AFEI",
+  "description": "憨憨PT站自动签到插件",
+  "requirements": [
+    "selenium",
+    "webdriver_manager"
+  ],
+  "dependencies": {
+  },
+  "configField": [
+    {
+      "field": "enabled",
+      "label": "开启插件",
+      "type": "boolean",
+      "default": false
+    },
+    {
+      "field": "cookie",
+      "label": "Cookie",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "field": "cron",
+      "label": "执行周期",
+      "type": "string",
+      "default": "30 8 * * *"
+    },
+    {
+      "field": "notify",
+      "label": "发送通知",
+      "type": "boolean",
+      "default": true
+    }
+  ]
 }
