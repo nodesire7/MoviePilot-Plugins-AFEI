@@ -1,7 +1,0 @@
-{
-  "target_url": "https://hhanclub.top/",
-  "enabled": false,
-  "cookie": "",
-  "cron": "30 8 * * *",
-  "notify": true
-}
