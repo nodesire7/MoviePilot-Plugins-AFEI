@@ -1,6 +1,7 @@
 from typing import Dict, Any
 from app.core.module import BaseModule
 from app.log import logger
+from .sign import HHSignHelper
 
 class HHSignin(BaseModule):
     """
@@ -8,9 +9,9 @@ class HHSignin(BaseModule):
     """
 
     # 插件名称
-    module_name = "憨憨PT站签到"
+    module_name = "HH论坛签到"
     # 插件描述
-    module_desc = "憨憨PT站自动签到"
+    module_desc = "HH论坛自动签到"
     # 插件图标
     module_icon = "signin.png"
     # 主题色
@@ -28,17 +29,13 @@ class HHSignin(BaseModule):
     # 可使用的用户级别
     user_level = 2
 
-    # 私有属性
-    _enabled = False
-    _cron = None
-    _cookie = None
-
     def init_module(self, config: Dict[str, Any]) -> None:
-        self._enabled = config.get("enabled", False)
-        self._cron = config.get("cron")
-        self._cookie = config.get("cookie")
+        self.enabled = config.get("enabled", False)
+        self.cron = config.get("cron")
+        self.cookie = config.get("cookie")
+        self.notify = config.get("notify", True)
 
-        if self._enabled:
+        if self.enabled:
             # 加载插件
             self._init_plugin()
 
@@ -46,9 +43,37 @@ class HHSignin(BaseModule):
         """
         插件初始化
         """
-        if not self._cookie:
+        if not self.cookie:
             logger.error(f"HH论坛签到插件启动失败，未配置cookie！")
             return
+
+        # 初始化签到助手
+        self.sign_helper = HHSignHelper(self.cookie)
         
-        # TODO: 初始化签到任务
-        pass
+        # 注册定时任务
+        self.register_manual_task(
+            'HH论坛签到',
+            'HH论坛自动签到任务',
+            self.cron,
+            self._signin_task
+        )
+
+    def _signin_task(self):
+        """
+        签到任务
+        """
+        if not self.sign_helper:
+            logger.error("签到助手未初始化")
+            return False
+
+        # 执行签到
+        result = self.sign_helper.sign_in()
+        
+        # 发送通知
+        if self.notify:
+            self.send_message(
+                title="【HH论坛签到】",
+                text="签到成功" if result else "签到失败"
+            )
+            
+        return result
