@@ -1,73 +1,79 @@
-import time
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from typing import Dict, Any
+from app.plugins import _PluginBase
+from app.core.config import settings
 from app.log import logger
+from .sign import HHSignHelper
 
+class HHSignin(_PluginBase):
+    """
+    憨憨PT站自动签到插件
+    """
+    # 插件名称
+    module_name = "hh_signin"
+    # 插件描述
+    module_desc = "憨憨PT站自动签到插件"
+    # 插件图标
+    module_icon = "signin.png"
+    # 主题色
+    module_color = "#0099FF"
+    # 插件版本
+    module_version = "1.0"
+    # 插件作者
+    module_author = "AFEI"
+    # 作者主页
+    author_url = "https://github.com/nodesire7"
+    # 插件配置项ID前缀
+    module_config_prefix = "hh_signin_"
+    # 加载顺序
+    module_order = 21
+    # 可使用的用户级别
+    user_level = 2
 
-class HHSignHelper:
-    """
-    HH论坛签到助手
-    """
-    _url = "https://hhanclub.top/"
-    
-    def __init__(self, cookie: str):
-        self._cookie = cookie
-        self._driver = None
+    def init_module(self, config: Dict[str, Any]) -> None:
+        self.enabled = config.get("enabled", False)
+        self.cron = config.get("cron")
+        self.cookie = config.get("cookie")
+        self.notify = config.get("notify", True)
+
+        if self.enabled:
+            # 加载插件
+            self._init_plugin()
+
+    def _init_plugin(self):
+        """
+        插件初始化
+        """
+        if not self.cookie:
+            logger.error(f"憨憨PT站签到插件启动失败，未配置cookie！")
+            return
+
+        # 初始化签到助手
+        self.sign_helper = HHSignHelper(self.cookie, chrome=self.chrome)
         
-    def _init_driver(self):
-        """
-        初始化 WebDriver
-        """
-        chrome_options = Options()
-        chrome_options.add_argument("--headless")  # 无界面模式
-        chrome_options.add_argument("--disable-gpu")
-        chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--disable-dev-shm-usage")
-        self._driver = webdriver.Chrome(options=chrome_options)
+        # 注册定时任务
+        self.register_manual_task(
+            '憨憨PT站签到',
+            '憨憨PT站自动签到任务',
+            self.cron,
+            self._signin_task
+        )
 
-    def sign_in(self) -> bool:
+    def _signin_task(self):
         """
-        执行签到
+        签到任务
         """
-        try:
-            self._init_driver()
-            
-            # 访问网站
-            self._driver.get(self._url)
-            
-            # 添加 Cookie
-            for item in self._cookie.split(";"):
-                name, value = item.strip().split("=", 1)
-                self._driver.add_cookie({"name": name, "value": value})
-            
-            # 刷新页面
-            self._driver.refresh()
-            
-            wait = WebDriverWait(self._driver, 10)
-            
-            # 点击用户头像
-            avatar = wait.until(EC.element_to_be_clickable((By.ID, "user-avatar")))
-            avatar.click()
-            logger.info("已点击用户头像")
-            
-            # 点击签到链接
-            sign_link = wait.until(EC.element_to_be_clickable(
-                (By.XPATH, "//a[contains(@href, 'attendance.php')]")
-            ))
-            sign_link.click()
-            logger.info("已点击签到链接")
-            
-            time.sleep(2)
-            return True
-            
-        except Exception as e:
-            logger.error(f"签到失败: {str(e)}")
+        if not self.sign_helper:
+            logger.error("签到助手未初始化")
             return False
-            
-        finally:
-            if self._driver:
-                self._driver.quit()
 
+        # 执行签到
+        result = self.sign_helper.sign_in()
+        
+        # 发送通知
+        if self.notify:
+            self.send_message(
+                title="【憨憨PT站签到】",
+                text="签到成功" if result else "签到失败"
+            )
+            
+        return result
