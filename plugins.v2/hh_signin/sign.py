@@ -4,7 +4,7 @@ from app.core.config import settings
 from app.log import logger
 from .sign import HHSignHelper
 
-class HHSignin(_PluginBase):
+class hh_signin(_PluginBase):
     """
     憨憨PT站自动签到插件
     """
