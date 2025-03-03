@@ -1,17 +1,17 @@
 from typing import Dict, Any
 from app.plugins import _PluginBase
+from app.core.config import settings
 from app.log import logger
 from .sign import HHSignHelper
 
-class HHSign(_PluginBase):
+class HHSignin(_PluginBase):
     """
-    HH论坛自动签到插件
+    憨憨PT站自动签到插件
     """
-
     # 插件名称
-    module_name = "hhsign"
+    module_name = "hh_signin"
     # 插件描述
-    module_desc = "HH论坛自动签到插件"
+    module_desc = "憨憨PT站自动签到插件"
     # 插件图标
     module_icon = "signin.png"
     # 主题色
@@ -23,7 +23,7 @@ class HHSign(_PluginBase):
     # 作者主页
     author_url = "https://github.com/nodesire7"
     # 插件配置项ID前缀
-    module_config_prefix = "hhsignin_"
+    module_config_prefix = "hh_signin_"
     # 加载顺序
     module_order = 21
     # 可使用的用户级别
@@ -44,16 +44,16 @@ class HHSign(_PluginBase):
         插件初始化
         """
         if not self.cookie:
-            logger.error(f"HH论坛签到插件启动失败，未配置cookie！")
+            logger.error(f"憨憨PT站签到插件启动失败，未配置cookie！")
             return
 
         # 初始化签到助手
-        self.sign_helper = HHSignHelper(self.cookie)
+        self.sign_helper = HHSignHelper(self.cookie, chrome=self.chrome)
         
         # 注册定时任务
         self.register_manual_task(
-            'HH论坛签到',
-            'HH论坛自动签到任务',
+            '憨憨PT站签到',
+            '憨憨PT站自动签到任务',
             self.cron,
             self._signin_task
         )
@@ -72,7 +72,7 @@ class HHSign(_PluginBase):
         # 发送通知
         if self.notify:
             self.send_message(
-                title="【HH论坛签到】",
+                title="【憨憨PT站签到】",
                 text="签到成功" if result else "签到失败"
             )
             
