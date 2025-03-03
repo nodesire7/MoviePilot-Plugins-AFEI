@@ -1,5 +1,5 @@
 {
-  "HHSign": {
+  "hh_signin": {
     "name": "hh_signin",
     "description": "憨憨PT站自动签到插件（Cookie版）",
     "labels": "签到",
