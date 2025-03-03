@@ -1,0 +1,7 @@
+enabled: false  # 插件开关
+cron: "0 8 * * *"  # 定时任务时间表达式
+cookie: ""  # 站点Cookie
+notify: true  # 是否开启消息通知
+site_url: "https://hhanclub.top/"
+retry_count: 3
+retry_timeout: 60
